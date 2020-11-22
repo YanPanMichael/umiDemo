@@ -1,20 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Table } from 'antd';
-
-const dataSource = [
-  {
-    key: '1',
-    name: '胡彦斌',
-    age: 32,
-    address: '西湖区湖底公园1号',
-  },
-  {
-    key: '2',
-    name: '胡彦祖',
-    age: 42,
-    address: '西湖区湖底公园1号',
-  },
-];
+import { connect } from 'umi';
 
 const columns = [
   {
@@ -34,10 +20,10 @@ const columns = [
   },
 ];
 
-const MainPage = props => {
+const MainPage = (props) => {
   return (
     <div>
-      <Table dataSource={dataSource} columns={columns} />
+      <Table dataSource={props.users} columns={columns} />
     </div>
   )
 }
@@ -46,4 +32,9 @@ MainPage.propTypes = {
   
 }
 
-export default MainPage;
+const mapStateToProps = ({users}) => ({
+  users,
+})
+
+
+export default connect(mapStateToProps)(MainPage);
