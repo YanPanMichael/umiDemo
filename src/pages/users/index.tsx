@@ -23,7 +23,7 @@ const columns = [
 const MainPage = (props) => {
   return (
     <div>
-      <Table dataSource={props.users} columns={columns} />
+      <Table dataSource={props.users.data} columns={columns} />
     </div>
   )
 }

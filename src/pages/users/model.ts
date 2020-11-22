@@ -1,4 +1,5 @@
 import { Effect, ImmerReducer, Reducer, Subscription } from 'umi';
+import getRemoteData from './services';
 export interface UsersModelState {
   name: string;
 }
@@ -21,27 +22,20 @@ const UsersModel: UsersModelType = {
     name: '',
   },
   effects: {
-    *query({ payload }, { call, put }) {
+    *query(action, { put, call }) {
+      const dataSource = yield call(getRemoteData);
+      console.log('aaa',dataSource);
+      yield put({
+        type: 'save',
+        payload: {
+          data: dataSource,
+        },
+      });
     },
   },
   reducers: {
-    save(state, action) {
-      const dataSource = [
-        {
-          key: '1',
-          name: '胡彦斌',
-          age: 32,
-          address: '西湖区湖底公园1号',
-        },
-        {
-          key: '2',
-          name: '胡彦祖',
-          age: 42,
-          address: '西湖区湖底公园1号',
-        },
-      ];
-      
-      return dataSource;
+    save(state, {type, payload}) {
+      return payload;
     },
   },
   subscriptions: {
@@ -49,7 +43,7 @@ const UsersModel: UsersModelType = {
       return history.listen(({ pathname }) => {
         if (pathname === '/users') {
           dispatch({
-            type: 'save',
+            type: 'query',
           })
         }
       });
